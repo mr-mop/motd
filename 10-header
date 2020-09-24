@@ -1,0 +1,22 @@
+#!/bin/bash
+
+THIS_SCRIPT="header"
+MOTD_DISABLE=""
+
+[[ -f /etc/default/raspbian-motd ]] && . /etc/default/raspbian-motd
+
+for f in $MOTD_DISABLE; do
+	[[ $f == $THIS_SCRIPT ]] && exit 0
+done
+
+. /etc/os-release
+. /etc/raspbian-release
+
+KERNELID=$(uname -r)
+
+BOARD_NAME="$(/usr/bin/awk -F" " '{print $1$2" "1}' </proc/device-tree/model)"
+
+#TERM=linux toilet -f standard -F metal $BOARD_NAME
+TERM=linux toilet -f standard -F gay $BOARD_NAME
+
+printf '\nWelcome to \e[0;91mRASPBIAN\x1B[0m %s %s %s %s\n' "$VERSION $IMAGE_TYPE $PRETTY_NAME $KERNELID"
